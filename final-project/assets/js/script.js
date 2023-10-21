@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 const setRandomTheme = () => {
     let randomNumber = generateRandomNumber(randomColors.length - 1);
-    themeColor = randomColors.filter((color, index) => index == randomNumber);
+    themeColor = randomColors.filter((color, index) => index == randomNumber)[0];
     coloredContainer.style.backgroundColor = themeColor;
     genBtn.style.backgroundColor = themeColor;
     quoteTextContainer.style.color = themeColor;
