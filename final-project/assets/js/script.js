@@ -24,7 +24,7 @@ const quoteText = document.getElementById("quote-text-span");
 // Variables
 let quotes = [];
 let themeColor = '#16a085';
-
+let quotesFetched = false;
 
 
 
@@ -34,7 +34,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     setRandomQuote();
     setRandomTheme();
 
-    genBtn.disabled = false;
+    if(quotesFetched){
+        genBtn.disabled = false;
+    }else{
+        genBtn.innerText = "No Quotes Available";
+    }
+    
     genBtn.addEventListener("click", () => {
         setRandomTheme();
         setRandomQuote();
@@ -42,7 +47,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 const setRandomTheme = () => {
-    themeColor = randomColors[generateRandomNumber(randomColors.length - 1)];
+    let randomNumber = generateRandomNumber(randomColors.length - 1);
+    themeColor = randomColors.filter((color, index) => index == randomNumber);
     coloredContainer.style.backgroundColor = themeColor;
     genBtn.style.backgroundColor = themeColor;
     quoteTextContainer.style.color = themeColor;
@@ -50,7 +56,8 @@ const setRandomTheme = () => {
 }
 
 const setRandomQuote = () => {
-    let randomQuote = quotes[generateRandomNumber(quotes.length - 1)];
+    let randomNumber = generateRandomNumber(quotes.length - 1);
+    let randomQuote = quotes.filter((quote, index) => index == randomNumber)[0];
     quoteText.innerText = randomQuote.quote;
     authorText.innerText = randomQuote.author;
 }
@@ -59,6 +66,6 @@ const setRandomQuote = () => {
 const fetchQuoteData = async () => {
     let response = await fetch(quotesUri).catch(err => alert(err));
     let result = await response.json();
-    console.log(result);
     quotes = result.quotes;
+    quotesFetched = true;
 }
